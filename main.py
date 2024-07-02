@@ -82,7 +82,7 @@ if not CAMERA_IP_ADDR and not VIDEO_PATH:
 #endregion
 #region CATEGORIES
 CATEGORIES_TO_SEARCH = []
-categories_as_str = os.getenv("category_name", None)
+categories_as_str = os.getenv("category_name".upper(), None)
 if categories_as_str:
     CATEGORIES_TO_SEARCH: list[int] = list(map(int, categories_as_str.split(",")))
     category_mgs = ", ".join(category_maper.get(cat) for cat in CATEGORIES_TO_SEARCH)
