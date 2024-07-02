@@ -54,7 +54,7 @@ DEBUG: bool = bool(os.getenv("debug", False))
 RECORD_VIDEO: bool = bool(os.getenv("record_video", False))
 logger.info(f"Record Video: {RECORD_VIDEO}")
 #region DEVICE
-GPU_ON = bool(os.getenv("gpu_on", False))
+GPU_ON = bool(os.getenv("gpu_on".upper(), False))
 if GPU_ON:
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     if device == "cpu":
