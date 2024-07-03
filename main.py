@@ -51,7 +51,7 @@ logger.info("Starting!!")
 #endregion
 
 DEBUG: bool = bool(os.getenv("debug", False))
-RECORD_VIDEO: bool = bool(os.getenv("record_video", False))
+RECORD_VIDEO: bool = bool(os.getenv("record_video".upper(), False))
 logger.info(f"Record Video: {RECORD_VIDEO}")
 #region DEVICE
 GPU_ON = bool(os.getenv("gpu_on".upper(), False))
@@ -75,7 +75,7 @@ video_from_path = os.getenv("video_from_path".upper())
 VIDEO_PATH = os.path.join(os.getcwd(), video_from_path) if video_from_path else None
 RECORDING_MINUTES = int(os.getenv("recording_minutes".upper(), 0))
 RECORDING_SECONDS = int(os.getenv("recording_seconds".upper(), 0))
-DRAW_BOXES:bool = bool(os.getenv("draw_boxes", False))
+DRAW_BOXES:bool = bool(os.getenv("draw_boxes".upper(), False))
 if not CAMERA_IP_ADDR and not VIDEO_PATH:
     logger.error("No stream and video path source!")
     raise Exception("No stream and video path source!")
@@ -221,7 +221,7 @@ class DetectCategory():
                     self.video_writer.write(frame)
                 if self.recording_flag:
                     if stop_time < datetime.now() and self.recording_flag:                    
-                        self.video_writer.release()
+                        self.video_writer.release()                        
                         logger.info(f"stop recording video at {datetime.now()} ==> {last_detected_category_name if last_detected_category_name else 'output_video'}_{time_as_str}.mp4")
                         self.recording_flag= False
 
