@@ -17,19 +17,23 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Copy the rest of the application code to the working directory
 COPY . .
 
-ARG GPU=False
+ARG GPU=""
 # default video
-ARG VIDEO=/usr/src/app/piesek.mp4
+ARG VIDEO=/usr/src/app/test_video.mp4
 ARG CAMERA=""
 
 # env for model
-ENV MODEL_TYPE=yolov5m
+ENV MODEL_TYPE=yolov5s
 ENV CAMERA_ADDR=$CAMERA
 ENV VIDEO_FROM_PATH=$VIDEO
+ENV RECORD_VIDEO=True
+ENV DRAW_BOXES=True
 ENV RECORDING_MINUTES=1
+ENV RECORDING_SECONDS=0
 ENV CATEGORY_NAME=0,16
 ENV SHOW_FPS=True
 ENV GPU_ON=$GPU
+ENV CONF_THRESHOLD=0.6
 # ENV debug=True
 ENV OUTPUT_LOG_PATH=/workspace
 

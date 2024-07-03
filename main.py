@@ -45,13 +45,12 @@ category_maper = {
 # VENV
 #region LOGGER
 OUTPUT_LOG_PATH:str|bool = os.getenv("output_log_path".upper(), False)
-print(OUTPUT_LOG_PATH) # test
 logger = LogginModule(app_name="yolov5_app", output_logging_file_name=OUTPUT_LOG_PATH, level=logging.DEBUG).get_logger()
 logger.info("Starting!!")
 #endregion
 
 DEBUG: bool = bool(os.getenv("debug", False))
-RECORD_VIDEO: bool = bool(os.getenv("record_video", False))
+RECORD_VIDEO: bool = bool(os.getenv("record_video".upper(), False))
 logger.info(f"Record Video: {RECORD_VIDEO}")
 #region DEVICE
 GPU_ON = bool(os.getenv("gpu_on".upper(), False))
@@ -65,17 +64,17 @@ logger.info(f"Device detected: {device}")
 #endregion
 #region MODEL
 MODEL_TYPE = os.getenv("model_type".upper(), "yolov5s")
-CONFIDENCE_THRESHOLD:float = float(os.getenv("conf_threshold", .5))
-logger.info(f"Seted model: {MODEL_TYPE}.Seted confidence threshold:\t{CONFIDENCE_THRESHOLD}.")
+CONFIDENCE_THRESHOLD:float = float(os.getenv("conf_threshold".upper(), .5))
+logger.info(f"Seted model: {MODEL_TYPE}.Seted confidence threshold: {CONFIDENCE_THRESHOLD}. {type(CONFIDENCE_THRESHOLD)}")
 #endregion
 #region CAMERA
 CAMERA_IP_ADDR = os.getenv("camera_addr".upper())
-print(CAMERA_IP_ADDR) # test
 video_from_path = os.getenv("video_from_path".upper())
 VIDEO_PATH = os.path.join(os.getcwd(), video_from_path) if video_from_path else None
 RECORDING_MINUTES = int(os.getenv("recording_minutes".upper(), 0))
 RECORDING_SECONDS = int(os.getenv("recording_seconds".upper(), 0))
-DRAW_BOXES:bool = bool(os.getenv("draw_boxes", False))
+DRAW_BOXES:bool = bool(os.getenv("draw_boxes".upper(), False))
+logger.info(f"DRAW_BOXES: {DRAW_BOXES}.")
 if not CAMERA_IP_ADDR and not VIDEO_PATH:
     logger.error("No stream and video path source!")
     raise Exception("No stream and video path source!")
@@ -87,7 +86,6 @@ if categories_as_str:
     CATEGORIES_TO_SEARCH: list[int] = list(map(int, categories_as_str.split(",")))
     category_mgs = ", ".join(category_maper.get(cat) for cat in CATEGORIES_TO_SEARCH)
     logger.info(f"Category to detect: {category_mgs}.")
-print(CATEGORIES_TO_SEARCH) # test
 #endregion
 SHOW_FPS: bool = bool(os.getenv("SHOW_FPS", False))
 
@@ -239,7 +237,7 @@ class DetectCategory():
 
 detected_ob_inst = DetectCategory()
 
-@app.get("/video_feed")
+@app.get("/video")
 async def video_feed():
     return StreamingResponse(
         detected_ob_inst.get_video_stream(), media_type="multipart/x-mixed-replace; boundary=frame"
