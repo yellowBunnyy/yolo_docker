@@ -71,7 +71,7 @@ logger.info(f"Seted model: {MODEL_TYPE}.Seted confidence threshold:\t{CONFIDENCE
 #region CAMERA
 CAMERA_IP_ADDR = os.getenv("camera_addr".upper())
 print(CAMERA_IP_ADDR) # test
-video_from_path = os.getenv("video_from_path")
+video_from_path = os.getenv("video_from_path".upper())
 VIDEO_PATH = os.path.join(os.getcwd(), video_from_path) if video_from_path else None
 RECORDING_MINUTES = int(os.getenv("recording_minutes".upper(), 0))
 RECORDING_SECONDS = int(os.getenv("recording_seconds".upper(), 0))
